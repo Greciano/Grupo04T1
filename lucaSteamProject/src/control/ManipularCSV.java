@@ -72,7 +72,6 @@ public class ManipularCSV {
 	}
 
 	public void leerYAlmacenarDatos(String file) {
-
 		List<String[]> dataList = new ArrayList<>();
 		boolean isFirstLine = true;
 		int rowsToRead = 100; // Cambia este valor para controlar cuántas filas leer
@@ -85,24 +84,29 @@ public class ManipularCSV {
 					continue; // Saltar la primera línea (encabezados)
 				}
 				String[] row = line.split(",");
-				dataList.add(row);
-				rowsToRead--; // Decrementar el contador de filas por leer
+
+				// F
+				String[] filteredData = new String[row.length - 6]; // Eliminar Rank y las ventas
+				int targetIndex = 0;
+				for (int sourceIndex = 1; sourceIndex < row.length - 5; sourceIndex++) {
+					filteredData[targetIndex] = row[sourceIndex];
+					targetIndex++;
+				}
+				dataList.add(filteredData);
+				rowsToRead--;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// Imprimir los encabezados
+		// Imprimir los encabezados sin Rank y ventas
 		System.out.println(
-				"Rank   Name       Platform  Year  Genre     Publisher  NA_Sales  EU_Sales  JP_Sales  Other_Sales  Global_Sales");
+				String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
 
-		// Ahora dataList contiene los datos del CSV en forma de arrays de cadenas.
-		// Puedes acceder a los datos y procesarlos según tus necesidades.
+		// Ahora dataList contiene los datos del CSV con las columnas eliminadas.
 		for (String[] row : dataList) {
-			for (String cell : row) {
-				System.out.printf("%-8s ", cell);
-			}
-			System.out.println();
+			System.out.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], row[4]));
 		}
 	}
+
 }
