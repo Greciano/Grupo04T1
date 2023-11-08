@@ -2,7 +2,8 @@ package control;
 
 import java.util.Date;
 
-
+import datos.DatosJuegoImp;
+import datos.IDatosJuego;
 import gui.Menu;
 import servicios.ServiciosJuego;
 import servicios.IServiciosJuego;
@@ -12,9 +13,10 @@ public class Wiki {
 
 	// atributos
 	IServiciosJuego servicios = new ServiciosJuego();
-
+	 
 	public void start() {
-
+		
+		
 		boolean seguir = true;
 		do {
 			Menu.mostrarMenu();
@@ -31,6 +33,7 @@ public class Wiki {
 		switch (LeerTeclado.leerInt()) {
 		case 1:
 			
+			servicios.getJuegos();
 			
 			break;
 

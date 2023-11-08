@@ -14,7 +14,7 @@ class CargaInicalTest {
 	@Test
 	public void listavacia() {
 		archivo.leerYAlmacenarDatos(null);
-		archivo.leerYAlmacenarDatos(null);
+		
 
 		
 	}

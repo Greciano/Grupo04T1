@@ -1,11 +1,13 @@
 package datos;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -17,8 +19,9 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import model.Genero;
 import model.Juego;
-import utilidades.LeerTeclado;
+import model.Plataforma;
 
 public class DatosJuegoImp implements IDatosJuego {
 
@@ -26,9 +29,14 @@ public class DatosJuegoImp implements IDatosJuego {
 	private String linea;
 	private String partes[] = null;
 	private int numeroEnumeracion = 1;
+	private List<Juego> listaJuegos = new ArrayList<>();
+
+	public DatosJuegoImp() {
+		leerYAlmacenarDatos("src/resources/vgsales.csv", listaJuegos);
+	}
 
 	@Override
-	public void leerArchivo(String nombreArchivo) {
+	public void leerArchivo() {
 
 		Document document = new Document(PageSize.A4.rotate());
 
@@ -36,7 +44,7 @@ public class DatosJuegoImp implements IDatosJuego {
 			PdfWriter.getInstance(document, new FileOutputStream("src/resources/archivo.pdf"));
 			document.open();
 
-			lector = new BufferedReader(new FileReader(nombreArchivo));
+			lector = new BufferedReader(new FileReader("src/resources/vgsales.csv"));
 
 			while ((linea = lector.readLine()) != null) {
 				partes = linea.split(",");
@@ -75,7 +83,46 @@ public class DatosJuegoImp implements IDatosJuego {
 	}
 
 	@Override
-	public void leerYAlmacenarDatos(String file) {
+	public void filtrarNintendo() {
+		String file = "src/resources/vgsales.csv"; // Ruta del archivo CSV
+
+		List<String[]> dataList = new ArrayList<>();
+		int rowsToRead = 100; // Controla cuántas filas leer
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+			String line;
+			while ((line = reader.readLine()) != null && rowsToRead > 0) {
+				if (line.contains("Nintendo")) { // Verifica si la línea contiene "Nintendo"
+					String[] row = line.split(",");
+					dataList.add(Arrays.copyOfRange(row, 1, row.length - 4)); // Elimina Rank y las ventas
+					rowsToRead--;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("El archivo no se pudo encontrar: " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Ocurrió un error de lectura: " + e.getMessage());
+		}
+
+		// Imprime los encabezados sin Rank y ventas
+		System.out.println(
+				String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
+
+		// Ahora dataList contiene los datos del CSV con las columnas eliminadas.
+		for (String[] row : dataList) {
+			System.out
+					.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], "Nintendo"));
+		}
+	}
+
+	
+
+	public Juego transformStringToGame(String linea) {
+
+		return new Juego();
+	}
+
+	public static void leerYAlmacenarDatos(String file, List<Juego> listajuegos) {
 		List<String[]> dataList = new ArrayList<>();
 		boolean isFirstLine = true;
 		int rowsToRead = 100; // Cambia este valor para controlar cuántas filas leer
@@ -103,30 +150,37 @@ public class DatosJuegoImp implements IDatosJuego {
 			e.printStackTrace();
 		}
 
-		// Imprimir los encabezados sin Rank y ventas
-		System.out.println(
-				String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
-
-		// Ahora dataList contiene los datos del CSV con las columnas eliminadas.
 		for (String[] row : dataList) {
-			System.out.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], row[4]));
+			String nombre = row[0];
+			int fecha = Integer.parseInt(row[2]); // Asegúrate de usar el índice correcto
+			String editor = row[4];
+			String plataformastr = row[1];
+			String generostr = row[3];
+
+			Plataforma plataforma = Plataforma.fromString(plataformastr);
+
+			Genero genero = Genero.fromString(generostr);
+
+			Juego juego = new Juego(nombre, fecha, editor, plataforma, genero);
+			listajuegos.add(juego);
 		}
 	}
 
-	@Override
-	public List<Juego> getJuego() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+
 
 	@Override
-	public void setJuego(List<Juego> juego) {
-		// TODO Auto-generated method stub
+	public void getJuegos() {
+		StringBuilder sb = new StringBuilder();
+        for (Juego e : listaJuegos) {
+            sb.append(e.toString() + "\n");
+        }
+        System.out.println(sb.toString());
 		
 	}
 
 	@Override
-	public void addJuego(Juego e) {
+	public void leerYAlmacenarDatos() {
 		// TODO Auto-generated method stub
 		
 	}

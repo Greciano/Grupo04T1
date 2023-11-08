@@ -8,16 +8,15 @@ import com.itextpdf.text.DocumentException;
 import model.Juego;
 
 public interface IDatosJuego {
-	
-	public List<Juego> getJuego();
-	
-	public void setJuego(List<Juego> juego);
-	
-	public void addJuego(Juego e);
-	
-	public void leerArchivo(String nombreArchivo);
-	
+
+	public void leerArchivo();
+
 	public void escribirLineaEnPDF(Document document) throws DocumentException;
-	
-	public void leerYAlmacenarDatos(String file);
+
+	public void filtrarNintendo();
+
+	public void leerYAlmacenarDatos();
+
+	public void getJuegos();
+
 }
