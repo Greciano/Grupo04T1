@@ -21,7 +21,7 @@ import model.Juego;
 import utilidades.LeerTeclado;
 
 public class DatosJuegoImp implements IDatosJuego {
-	
+
 	private BufferedReader lector;
 	private String linea;
 	private String partes[] = null;
@@ -76,48 +76,59 @@ public class DatosJuegoImp implements IDatosJuego {
 
 	@Override
 	public void leerYAlmacenarDatos(String file) {
-        List<String[]> dataList = new ArrayList<>();
-        boolean isFirstLine = true;
-        int rowsToRead = 100; // Cambia este valor para controlar cuántas filas leer
+		List<String[]> dataList = new ArrayList<>();
+		boolean isFirstLine = true;
+		int rowsToRead = 100; // Cambia este valor para controlar cuántas filas leer
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null && rowsToRead > 0) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue; // Saltar la primera línea (encabezados)
-                }
-                String[] row = line.split(",");
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+			String line;
+			while ((line = reader.readLine()) != null && rowsToRead > 0) {
+				if (isFirstLine) {
+					isFirstLine = false;
+					continue; // Saltar la primera línea (encabezados)
+				}
+				String[] row = line.split(",");
 
-                // F
-                String[] filteredData = new String[row.length - 6]; // Eliminar Rank y las ventas
-                int targetIndex = 0;
-                for (int sourceIndex = 1; sourceIndex < row.length - 5; sourceIndex++) {
-                    filteredData[targetIndex] = row[sourceIndex];
-                    targetIndex++;
-                }
-                dataList.add(filteredData);
-                rowsToRead--;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+				// F
+				String[] filteredData = new String[row.length - 6]; // Eliminar Rank y las ventas
+				int targetIndex = 0;
+				for (int sourceIndex = 1; sourceIndex < row.length - 5; sourceIndex++) {
+					filteredData[targetIndex] = row[sourceIndex];
+					targetIndex++;
+				}
+				dataList.add(filteredData);
+				rowsToRead--;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        // Imprimir los encabezados sin Rank y ventas
-        System.out.println(
-                String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
+		// Imprimir los encabezados sin Rank y ventas
+		System.out.println(
+				String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
 
-        // Ahora dataList contiene los datos del CSV con las columnas eliminadas.
-        for (String[] row : dataList) {
-            System.out.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], row[4]));
-        }
-    }
+		// Ahora dataList contiene los datos del CSV con las columnas eliminadas.
+		for (String[] row : dataList) {
+			System.out.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], row[4]));
+		}
+	}
 
-		
-		
+	@Override
+	public List<Juego> getJuego() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setJuego(List<Juego> juego) {
+		// TODO Auto-generated method stub
 		
 	}
 
- 
+	@Override
+	public void addJuego(Juego e) {
+		// TODO Auto-generated method stub
+		
+	}
 
-
+}
