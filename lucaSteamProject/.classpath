@@ -8,7 +8,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="lib" path="C:/Users/34673/Downloads/log4j-core-2.21.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/34673/Downloads/log4j-api-2.21.1.jar"/>
+	<classpathentry kind="lib" path="D:/LucaTic/Proyecto1/Grupo04T1/lucaSteamProject/src/resources/gson-2.10.1.jar"/>
+	<classpathentry kind="lib" path="D:/LucaTic/Proyecto1/Grupo04T1/lucaSteamProject/src/resources/itextpdf-5.5.13.2.jar"/>
+	<classpathentry kind="lib" path="D:/LucaTic/Proyecto1/Grupo04T1/lucaSteamProject/src/resources/log4j-api-2.21.0.jar"/>
+	<classpathentry kind="lib" path="D:/LucaTic/Proyecto1/Grupo04T1/lucaSteamProject/src/resources/log4j-core-2.21.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
