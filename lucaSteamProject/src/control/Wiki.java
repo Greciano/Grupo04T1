@@ -31,36 +31,36 @@ public class Wiki {
 		switch (LeerTeclado.leerInt()) {
 		case 1:
 			
-			servicios.
+			
 			break;
 
 		case 2:
 			
-			servicios.
+			
 			break;
 
 		case 3:
 			
-			servicios.
+			
 			break;
 
 		case 4:
 			
-			servicios.
+			
 			break;
 
 		case 5:
 			
-			servicios.
+			
 			break;
 
 		case 6:
-			servicios.
+			
 			break;
 
 		case 7:
 			
-			servicios.
+			
 			break;
 
 		case 0:
