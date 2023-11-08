@@ -18,5 +18,11 @@ public interface IDatosJuego {
 	public void leerYAlmacenarDatos();
 
 	public void getJuegos();
+	
+	public void addJuego();
+	
+	public void filtrarPlataforma();
+	
+	public void filtrarGenero();
 
 }

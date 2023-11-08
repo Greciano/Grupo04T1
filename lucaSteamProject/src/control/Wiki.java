@@ -13,10 +13,9 @@ public class Wiki {
 
 	// atributos
 	IServiciosJuego servicios = new ServiciosJuego();
-	 
+
 	public void start() {
-		
-		
+
 		boolean seguir = true;
 		do {
 			Menu.mostrarMenu();
@@ -27,43 +26,41 @@ public class Wiki {
 	}
 
 	public boolean seleccionOpciones() {
-		
 
 		boolean continuar = true;
 		switch (LeerTeclado.leerInt()) {
 		case 1:
-			
+
 			servicios.getJuegos();
-			
+
 			break;
 
 		case 2:
-			
-			
+			servicios.addJuego();
+
 			break;
 
 		case 3:
-			
-			
+
+			servicios.filtrarPlataforma();
+
 			break;
 
 		case 4:
-			
-			
+
+			servicios.filtrarGenero();
 			break;
 
 		case 5:
-			
-			
+
 			break;
 
 		case 6:
-			
+
 			break;
 
 		case 7:
-			
-			
+
 			break;
 
 		case 0:
@@ -73,10 +70,10 @@ public class Wiki {
 
 		return continuar;
 	}
-	
-    private boolean salir() {
-        String sino = LeerTeclado.leerLinea("   �Esta seguro?(S/N)");
-        return (sino.toUpperCase().charAt(0) != 'S');
-    }
+
+	private boolean salir() {
+		String sino = LeerTeclado.leerLinea("   �Esta seguro?(S/N)");
+		return (sino.toUpperCase().charAt(0) != 'S');
+	}
 
 }

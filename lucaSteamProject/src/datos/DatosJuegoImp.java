@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -22,6 +23,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import model.Genero;
 import model.Juego;
 import model.Plataforma;
+import utilidades.LeerTeclado;
 
 public class DatosJuegoImp implements IDatosJuego {
 
@@ -115,8 +117,6 @@ public class DatosJuegoImp implements IDatosJuego {
 		}
 	}
 
-	
-
 	public Juego transformStringToGame(String linea) {
 
 		return new Juego();
@@ -166,23 +166,120 @@ public class DatosJuegoImp implements IDatosJuego {
 		}
 	}
 
-	
-
-
 	@Override
 	public void getJuegos() {
 		StringBuilder sb = new StringBuilder();
-        for (Juego e : listaJuegos) {
-            sb.append(e.toString() + "\n");
-        }
-        System.out.println(sb.toString());
-		
+		for (Juego e : listaJuegos) {
+			sb.append(e.toString() + "\n");
+		}
+		System.out.println(sb.toString());
+
 	}
 
 	@Override
 	public void leerYAlmacenarDatos() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void addJuego() {
+		Scanner scanner = new Scanner(System.in);
+		try {
+			String nombre = LeerTeclado.leerLinea("Ingrese el nombre del juego:");
+
+			int fecha = LeerTeclado.leerInt("Ingrese el año de lanzamiento: ");
+
+			String editor = LeerTeclado.leerLinea("Ingrese el editor: ");
+
+			System.out.println("Selecciona la plataforma:");
+			mostrarOpcionesPlataforma();
+			int opcionPlataforma = Integer.parseInt(scanner.nextLine());
+
+			System.out.println("Selecciona el género:");
+			mostrarOpcionesGenero();
+			int opcionGenero = Integer.parseInt(scanner.nextLine());
+
+			Plataforma plataforma = seleccionarPlataforma(opcionPlataforma);
+			Genero genero = seleccionarGenero(opcionGenero);
+
+			Juego nuevoJuego = new Juego(nombre, fecha, editor, plataforma, genero);
+			listaJuegos.add(nuevoJuego);
+
+		} catch (Exception e) {
+			System.out.println("Error al ingresar los datos: " + e.getMessage());
+		} finally {
+
+		}
+
+	}
+
+	private static void mostrarOpcionesPlataforma() {
+		for (int i = 0; i < Plataforma.values().length; i++) {
+			System.out.println(i + 1 + ". " + Plataforma.values()[i].getValor());
+		}
+	}
+
+	private static void mostrarOpcionesGenero() {
+		for (int i = 0; i < Genero.values().length; i++) {
+			System.out.println(i + 1 + ". " + Genero.values()[i].getValor());
+		}
+	}
+
+	private static Plataforma seleccionarPlataforma(int opcion) {
+		return Plataforma.values()[opcion - 1];
+	}
+
+	private static Genero seleccionarGenero(int opcion) {
+		return Genero.values()[opcion - 1];
+	}
+
+	@Override
+	public void filtrarPlataforma() {
+		
+		mostrarOpcionesPlataforma();
+		int opcionPlataforma = LeerTeclado.leerInt("Selecciona la plataforma:");
+		Plataforma plataforma = seleccionarPlataforma(opcionPlataforma);
+		
+		 List<Juego> juegosFiltrados = new ArrayList<>();
+		
+		for (Juego juego : listaJuegos) {
+	        if (juego.getPlataforma() == plataforma) {
+	            juegosFiltrados.add(juego);
+	        }
+	    }
+
+	    // Ahora tienes la lista de juegos filtrados por la plataforma seleccionada
+	    for (Juego juego : juegosFiltrados) {
+	        System.out.println(juego);
+	    }
+
+
+	}
+
+	@Override
+	public void filtrarGenero() {
+		
+		mostrarOpcionesGenero();
+		int opcionGenero = LeerTeclado.leerInt("Selecciona el genero:");
+		Genero genero = seleccionarGenero(opcionGenero);
+		
+		 List<Juego> juegosFiltrados = new ArrayList<>();
+			
+			for (Juego juego : listaJuegos) {
+		        if (juego.getGenero() == genero) {
+		            juegosFiltrados.add(juego);
+		        }
+		    }
+
+		    // Ahora tienes la lista de juegos filtrados por la plataforma seleccionada
+		    for (Juego juego : juegosFiltrados) {
+		        System.out.println(juego);
+		    }
 		
 	}
+	
+	
+	
 
 }
