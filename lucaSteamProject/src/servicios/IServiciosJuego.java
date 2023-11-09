@@ -1,15 +1,29 @@
+/**
+ * Interfaz que define los servicios relacionados con juegos.
+ */
 package servicios;
 
-import model.Juego;
-
 public interface IServiciosJuego {
-	
-	public void getJuegos();
-	
-	public void addJuego();
-	
-	public void filtrarPlataforma();
-	
-	public void filtrarGenero();
 
+    /**
+     * Obtiene una lista de juegos.
+     */
+    public void getJuegos();
+
+    /**
+     * Agrega un nuevo juego.
+     */
+    public void addJuego();
+
+    /**
+     * Filtra juegos por plataforma.
+     */
+    public void filtrarPlataforma();
+
+    /**
+     * Filtra juegos por género.
+     */
+    public void filtrarGenero();
+    
+    public void filtrarNintendo();
 }

@@ -27,16 +27,22 @@ import utilidades.LeerTeclado;
 
 public class DatosJuegoImp implements IDatosJuego {
 
+    // Atributos
+
 	private BufferedReader lector;
 	private String linea;
 	private String partes[] = null;
 	private int numeroEnumeracion = 1;
 	private List<Juego> listaJuegos = new ArrayList<>();
 
+    // Constructor
+
 	public DatosJuegoImp() {
 		leerYAlmacenarDatos("src/resources/vgsales.csv", listaJuegos);
 	}
 
+	
+	//(método para leer un archivo CSV y generar un archivo PDF)
 	@Override
 	public void leerArchivo() {
 
@@ -84,43 +90,18 @@ public class DatosJuegoImp implements IDatosJuego {
 		document.add(Chunk.NEWLINE);
 	}
 
-	@Override
-	public void filtrarNintendo() {
-		String file = "src/resources/vgsales.csv"; // Ruta del archivo CSV
+	
+    
 
-		List<String[]> dataList = new ArrayList<>();
-		int rowsToRead = 100; // Controla cuántas filas leer
-
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-			String line;
-			while ((line = reader.readLine()) != null && rowsToRead > 0) {
-				if (line.contains("Nintendo")) { // Verifica si la línea contiene "Nintendo"
-					String[] row = line.split(",");
-					dataList.add(Arrays.copyOfRange(row, 1, row.length - 4)); // Elimina Rank y las ventas
-					rowsToRead--;
-				}
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("El archivo no se pudo encontrar: " + e.getMessage());
-		} catch (IOException e) {
-			System.err.println("Ocurrió un error de lectura: " + e.getMessage());
-		}
-
-		// Imprime los encabezados sin Rank y ventas
-		System.out.println(
-				String.format("%-40s %-12s %-8s %-12s %-12s", "Name", "Platform", "Year", "Genre", "Publisher"));
-
-		// Ahora dataList contiene los datos del CSV con las columnas eliminadas.
-		for (String[] row : dataList) {
-			System.out
-					.println(String.format("%-40s %-12s %-8s %-12s %-12s", row[0], row[1], row[2], row[3], "Nintendo"));
-		}
-	}
-
+	
+    // Este método podría implementar la transformación de una cadena a un objeto Juego.
 	public Juego transformStringToGame(String linea) {
 
 		return new Juego();
 	}
+
+	
+    //(método para leer y almacenar datos desde un archivo CSV)
 
 	public static void leerYAlmacenarDatos(String file, List<Juego> listajuegos) {
 		List<String[]> dataList = new ArrayList<>();
@@ -166,6 +147,8 @@ public class DatosJuegoImp implements IDatosJuego {
 		}
 	}
 
+	
+    //(método para obtener y mostrar la lista de juegos)
 	@Override
 	public void getJuegos() {
 		StringBuilder sb = new StringBuilder();
@@ -176,15 +159,18 @@ public class DatosJuegoImp implements IDatosJuego {
 
 	}
 
+	
+    //(método para leer y almacenar datos desde un archivo CSV)
 	@Override
 	public void leerYAlmacenarDatos() {
 		// TODO Auto-generated method stub
 
 	}
 
+    //(método para agregar un juego a la lista de juegos)
 	@Override
 	public void addJuego() {
-		Scanner scanner = new Scanner(System.in);
+	
 		try {
 			String nombre = LeerTeclado.leerLinea("Ingrese el nombre del juego:");
 
@@ -192,13 +178,12 @@ public class DatosJuegoImp implements IDatosJuego {
 
 			String editor = LeerTeclado.leerLinea("Ingrese el editor: ");
 
-			System.out.println("Selecciona la plataforma:");
 			mostrarOpcionesPlataforma();
-			int opcionPlataforma = Integer.parseInt(scanner.nextLine());
-
-			System.out.println("Selecciona el género:");
+			int opcionPlataforma = LeerTeclado.leerInt("Selecciona la plataforma:");
+			
 			mostrarOpcionesGenero();
-			int opcionGenero = Integer.parseInt(scanner.nextLine());
+			int opcionGenero = LeerTeclado.leerInt("Selecciona el genero:");
+			
 
 			Plataforma plataforma = seleccionarPlataforma(opcionPlataforma);
 			Genero genero = seleccionarGenero(opcionGenero);
@@ -214,26 +199,34 @@ public class DatosJuegoImp implements IDatosJuego {
 
 	}
 
-	private static void mostrarOpcionesPlataforma() {
+    //(método auxiliar para mostrar las opciones de plataforma)
+	public static void mostrarOpcionesPlataforma() {
 		for (int i = 0; i < Plataforma.values().length; i++) {
 			System.out.println(i + 1 + ". " + Plataforma.values()[i].getValor());
 		}
 	}
 
-	private static void mostrarOpcionesGenero() {
+    // Otros métodos privados auxiliares para seleccionar plataformas y géneros
+	public static void mostrarOpcionesGenero() {
 		for (int i = 0; i < Genero.values().length; i++) {
 			System.out.println(i + 1 + ". " + Genero.values()[i].getValor());
 		}
 	}
 
-	private static Plataforma seleccionarPlataforma(int opcion) {
+	
+    //(método auxiliar para seleccionar una plataforma)
+	public static Plataforma seleccionarPlataforma(int opcion) {
 		return Plataforma.values()[opcion - 1];
 	}
 
-	private static Genero seleccionarGenero(int opcion) {
+    //(método auxiliar para seleccionar un género)
+
+	public static Genero seleccionarGenero(int opcion) {
 		return Genero.values()[opcion - 1];
 	}
 
+	
+    //(método para filtrar juegos por plataforma y mostrar los resultados)
 	@Override
 	public void filtrarPlataforma() {
 		
@@ -257,6 +250,8 @@ public class DatosJuegoImp implements IDatosJuego {
 
 	}
 
+    //(método para filtrar juegos por género y mostrar los resultados)
+
 	@Override
 	public void filtrarGenero() {
 		
@@ -278,6 +273,30 @@ public class DatosJuegoImp implements IDatosJuego {
 		    }
 		
 	}
+	
+	//(método para filtrar juegos relacionados con Nintendo en la lista de juegos)
+
+		@Override
+		public void filtrarNintendo() {
+			
+			String editorBuscado = "Nintendo"; // El editor que deseas buscar
+			
+			 List<Juego> juegosFiltrados = new ArrayList<>();
+				
+				for (Juego juego : listaJuegos) {
+			        if (juego.getEditor().equalsIgnoreCase(editorBuscado)) {
+			            juegosFiltrados.add(juego);
+			        }
+			    }
+
+			    // Ahora tienes la lista de juegos filtrados por la plataforma seleccionada
+			    for (Juego juego : juegosFiltrados) {
+			        System.out.println(juego);
+			    }
+			
+		}
+	
+	
 	
 	
 	
